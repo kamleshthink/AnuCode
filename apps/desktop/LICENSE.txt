@@ -1,0 +1,49 @@
+AnuCode - AI-Powered Code Editor
+Copyright (c) 2024 AnuCode
+
+END-USER LICENSE AGREEMENT (EULA)
+
+IMPORTANT: PLEASE READ THIS LICENSE CAREFULLY BEFORE USING THIS SOFTWARE.
+
+1. LICENSE GRANT
+AnuCode grants you a revocable, non-exclusive, non-transferable, limited license to download, install, and use the software solely for your personal or internal business purposes strictly in accordance with the terms of this Agreement.
+
+2. RESTRICTIONS
+You agree not to, and you will not permit others to:
+a) License, sell, rent, lease, assign, distribute, transmit, host, outsource, disclose or otherwise commercially exploit the software
+b) Modify, make derivative works of, disassemble, decrypt, reverse compile or reverse engineer any part of the software
+c) Remove, alter or obscure any proprietary notice (including any notice of copyright or trademark) of AnuCode
+
+3. INTELLECTUAL PROPERTY
+The software and all worldwide copyrights, trade secrets, and other intellectual property rights therein are the exclusive property of AnuCode.
+
+4. YOUR SUGGESTIONS
+Any feedback, comments, ideas, improvements or suggestions (collectively, "Suggestions") provided by you to AnuCode with respect to the software shall remain the sole and exclusive property of AnuCode.
+
+5. MODIFICATIONS TO SOFTWARE
+AnuCode reserves the right to modify, suspend or discontinue, temporarily or permanently, the software or any service to which it connects, with or without notice and without liability to you.
+
+6. TERM AND TERMINATION
+This Agreement shall remain in effect until terminated by you or AnuCode. AnuCode may, in its sole discretion, at any time and for any or no reason, suspend or terminate this Agreement.
+
+7. DISCLAIMER OF WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+8. LIMITATION OF LIABILITY
+TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL ANUCODE BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES.
+
+9. PRIVACY POLICY
+AnuCode respects your privacy. Please refer to our Privacy Policy for information on how we collect, use and disclose information from our users.
+
+10. UPDATES TO OUR TERMS
+We may change our Service and policies, and we may need to make changes to these Terms so that they accurately reflect our Service and policies.
+
+11. GOVERNING LAW
+This Agreement shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.
+
+12. CONTACT INFORMATION
+If you have any questions about this Agreement, please contact us at: support@anucode.com
+
+BY INSTALLING OR USING THE SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS AGREEMENT, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.
+
+Last Updated: December 19, 2024

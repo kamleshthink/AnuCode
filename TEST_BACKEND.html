@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS AI Backend Tester</title>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .status.connected {
+            background: #10b981;
+            color: white;
+        }
+
+        .status.disconnected {
+            background: #ef4444;
+            color: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 8px;
+            color: white;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .feature li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        #output {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .message {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 NEXUS AI Backend Tester</h1>
+
+        <div class="card">
+            <h2>Connection Status</h2>
+            <div id="status" class="status disconnected">Disconnected</div>
+            <p>Connect to: <strong id="serverUrl">http://localhost:3002</strong></p>
+
+            <div class="input-group">
+                <label>Server URL:</label>
+                <input type="text" id="urlInput" value="http://localhost:3002" placeholder="http://localhost:3002">
+            </div>
+
+            <button class="btn" onclick="connectServer()">Connect to Server</button>
+            <button class="btn" onclick="clearOutput()" style="background: #ef4444;">Clear Output</button>
+        </div>
+
+        <div class="card">
+            <h2>🤖 Test AI Conversation</h2>
+
+            <div class="input-group">
+                <label>Conversation ID:</label>
+                <input type="text" id="conversationId" value="test-conv-123">
+            </div>
+
+            <div class="input-group">
+                <label>User ID:</label>
+                <input type="text" id="userId" value="user-456">
+            </div>
+
+            <div class="input-group">
+                <label>Your Message:</label>
+                <input type="text" id="messageInput" value="Hello! Can you help me create a simple Node.js app?">
+            </div>
+
+            <button class="btn" onclick="createConversation()">1. Create Conversation</button>
+            <button class="btn" onclick="sendMessage()">2. Send Message</button>
+        </div>
+
+        <div class="card">
+            <h2>🛠️ Test MCP Tools</h2>
+
+            <button class="btn" onclick="testFileRead()">Read package.json</button>
+            <button class="btn" onclick="testGitStatus()">Git Status</button>
+            <button class="btn" onclick="testCommand()">Run Command (echo)</button>
+            <button class="btn" onclick="getTools()">Get All Tools</button>
+        </div>
+
+        <div class="card">
+            <h2>📋 Output</h2>
+            <div id="output"></div>
+        </div>
+
+        <div class="card">
+            <h2>✨ What's Built</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h3>📁 File System MCP</h3>
+                    <ul>
+                        <li>Read files</li>
+                        <li>Write files</li>
+                        <li>Create directories</li>
+                        <li>Delete files/dirs</li>
+                        <li>List directory</li>
+                        <li>Search files (glob)</li>
+                        <li>Move/rename files</li>
+                        <li>Copy files</li>
+                    </ul>
+                </div>
+
+                <div class="feature" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <h3>🔧 Git MCP</h3>
+                    <ul>
+                        <li>Git status/init</li>
+                        <li>Add/commit/push</li>
+                        <li>Branch management</li>
+                        <li>Git diff/log</li>
+                        <li>Clone repos</li>
+                        <li>Remote management</li>
+                        <li>Stash operations</li>
+                        <li>Reset/checkout</li>
+                    </ul>
+                </div>
+
+                <div class="feature" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <h3>💻 Terminal MCP</h3>
+                    <ul>
+                        <li>Execute commands</li>
+                        <li>Spawn processes</li>
+                        <li>Get output</li>
+                        <li>Kill processes</li>
+                        <li>Process list</li>
+                        <li>Command history</li>
+                        <li>Check commands</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📚 Quick Code Example</h2>
+            <div class="code-block">
+<pre>// Connect to NEXUS AI Backend
+const socket = io('http://localhost:3002');
+
+// Create conversation
+socket.emit('ai:create-conversation', {
+  conversationId: 'my-conv',
+  userId: 'user-123',
+  projectPath: 'D:/MyProject'
+});
+
+// Send message to AI
+socket.emit('ai:message', {
+  conversationId: 'my-conv',
+  message: 'Build me a todo app'
+});
+
+// Get AI response
+socket.on('ai:response', ({ message }) => {
+  console.log('AI:', message);
+});</pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let socket = null;
+
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+        }
+
+        function connectServer() {
+            const url = document.getElementById('urlInput').value;
+            document.getElementById('serverUrl').textContent = url;
+
+            if (socket) {
+                socket.disconnect();
+            }
+
+            log('Connecting to ' + url + '...', 'info');
+
+            socket = io(url);
+
+            socket.on('connect', () => {
+                log('✅ Connected to server!', 'success');
+                document.getElementById('status').className = 'status connected';
+                document.getElementById('status').textContent = 'Connected';
+            });
+
+            socket.on('disconnect', () => {
+                log('❌ Disconnected from server', 'error');
+                document.getElementById('status').className = 'status disconnected';
+                document.getElementById('status').textContent = 'Disconnected';
+            });
+
+            socket.on('ai:conversation-created', (data) => {
+                log('📝 Conversation created: ' + JSON.stringify(data), 'success');
+            });
+
+            socket.on('ai:response', (data) => {
+                log('🤖 AI Response: ' + data.message, 'success');
+                if (data.toolCalls) {
+                    log('🔧 Tools used: ' + JSON.stringify(data.toolCalls), 'info');
+                }
+            });
+
+            socket.on('ai:error', (data) => {
+                log('❌ AI Error: ' + data.error, 'error');
+            });
+
+            socket.on('mcp:tool-result', (data) => {
+                log('🛠️ Tool Result: ' + JSON.stringify(data.result, null, 2), 'success');
+            });
+
+            socket.on('mcp:error', (data) => {
+                log('❌ MCP Error: ' + data.error, 'error');
+            });
+        }
+
+        function createConversation() {
+            if (!socket) {
+                log('❌ Not connected to server. Click "Connect to Server" first.', 'error');
+                return;
+            }
+
+            const conversationId = document.getElementById('conversationId').value;
+            const userId = document.getElementById('userId').value;
+
+            log('Creating conversation...', 'info');
+            socket.emit('ai:create-conversation', {
+                conversationId,
+                userId,
+                projectPath: 'D:/NEXUS AI'
+            });
+        }
+
+        function sendMessage() {
+            if (!socket) {
+                log('❌ Not connected to server. Click "Connect to Server" first.', 'error');
+                return;
+            }
+
+            const conversationId = document.getElementById('conversationId').value;
+            const message = document.getElementById('messageInput').value;
+
+            log('📤 Sending message...', 'info');
+            socket.emit('ai:message', {
+                conversationId,
+                message
+            });
+        }
+
+        function testFileRead() {
+            if (!socket) {
+                log('❌ Not connected to server. Click "Connect to Server" first.', 'error');
+                return;
+            }
+
+            log('Reading package.json...', 'info');
+            socket.emit('mcp:execute-tool', {
+                toolName: 'fs_read_file',
+                arguments: {
+                    path: 'package.json'
+                }
+            });
+        }
+
+        function testGitStatus() {
+            if (!socket) {
+                log('❌ Not connected to server. Click "Connect to Server" first.', 'error');
+                return;
+            }
+
+            log('Getting git status...', 'info');
+            socket.emit('mcp:execute-tool', {
+                toolName: 'git_status',
+                arguments: {}
+            });
+        }
+
+        function testCommand() {
+            if (!socket) {
+                log('❌ Not connected to server. Click "Connect to Server" first.', 'error');
+                return;
+            }
+
+            log('Running echo command...', 'info');
+            socket.emit('mcp:execute-tool', {
+                toolName: 'terminal_execute',
+                arguments: {
+                    command: 'echo "Hello from NEXUS AI!"'
+                }
+            });
+        }
+
+        function getTools() {
+            if (!socket) {
+                log('❌ Not connected to server. Click "Connect to Server" first.', 'error');
+                return;
+            }
+
+            log('Fetching available tools via HTTP...', 'info');
+            const url = document.getElementById('urlInput').value;
+            fetch(url + '/api/v1/mcp/tools')
+                .then(res => res.json())
+                .then(data => {
+                    log('📋 Total Tools: ' + data.tools.length, 'success');
+                    log(JSON.stringify(data.info, null, 2), 'info');
+                })
+                .catch(err => {
+                    log('❌ Error: ' + err.message, 'error');
+                });
+        }
+    </script>
+</body>
+</html>

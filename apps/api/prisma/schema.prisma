@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  passwordHash  String
+  authProvider  String?
+  role          String   @default("user")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  projects      Project[]
+  conversations AIConversation[]
+
+  @@map("users")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  ownerId     String
+  framework   String
+  visibility  String   @default("private")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner         User             @relation(fields: [ownerId], references: [id])
+  conversations AIConversation[]
+  deployments   Deployment[]
+
+  @@map("projects")
+}
+
+model AIConversation {
+  id        String   @id @default(uuid())
+  userId    String
+  projectId String?
+  mode      String
+  messages  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id])
+  project Project? @relation(fields: [projectId], references: [id])
+
+  @@map("ai_conversations")
+}
+
+model Deployment {
+  id        String   @id @default(uuid())
+  projectId String
+  provider  String
+  status    String
+  url       String?
+  error     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@map("deployments")
+}

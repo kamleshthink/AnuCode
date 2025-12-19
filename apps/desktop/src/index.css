@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4e4e4e;
+}
+
+/* Monaco Editor Overrides */
+.monaco-editor {
+  background-color: #1e1e1e !important;
+}
+
+/* Resizable Panel Styles */
+[data-panel-group] {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+[data-panel] {
+  overflow: hidden;
+}
+
+[data-panel-resize-handle] {
+  flex-shrink: 0;
+  position: relative;
+}
+
+[data-panel-resize-handle]:hover {
+  cursor: col-resize;
+}
+
+[data-panel-resize-handle][data-panel-resize-handle-active] {
+  cursor: col-resize;
+}
+
+[data-panel-group][data-panel-group-direction="vertical"] [data-panel-resize-handle] {
+  cursor: row-resize;
+}
