@@ -5,8 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NEXUS AI - Next Generation AI Development Platform',
-  description: 'Build, deploy, and manage applications with AI',
+  title: 'AnuCode - AI-Powered Code Editor',
+  description: 'Build faster, code smarter with AI-powered development tools',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

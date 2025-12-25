@@ -5,10 +5,10 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-            NEXUS AI
+            AnuCode
           </h1>
           <p className="text-2xl text-gray-300 mb-8">
-            Next Generation AI-Powered Development Platform
+            AI-Powered Code Editor - Build Faster, Code Smarter
           </p>
           <div className="flex justify-center space-x-4">
             <button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold transition-colors">
