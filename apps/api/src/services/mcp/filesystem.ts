@@ -298,7 +298,7 @@ export class FileSystemMCP extends MCPServer {
       });
 
       const items = await Promise.all(
-        files.map(async (file) => {
+        files.map(async (file: string) => {
           const fullPath = path.join(dirPath, file);
           const stats = await fs.stat(fullPath);
           return {

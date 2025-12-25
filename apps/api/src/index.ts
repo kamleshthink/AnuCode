@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
@@ -32,7 +32,7 @@ let contextManager: ContextManager;
 let mcpManager: MCPManager;
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
@@ -45,7 +45,7 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.get('/api/v1', (req, res) => {
+app.get('/api/v1', (req: Request, res: Response) => {
   res.json({
     name: 'NEXUS AI API',
     version: '0.1.0',
@@ -54,7 +54,7 @@ app.get('/api/v1', (req, res) => {
 });
 
 // Get MCP tools info
-app.get('/api/v1/mcp/tools', (req, res) => {
+app.get('/api/v1/mcp/tools', (req: Request, res: Response) => {
   if (!mcpManager) {
     return res.status(503).json({ error: 'MCP Manager not initialized' });
   }
