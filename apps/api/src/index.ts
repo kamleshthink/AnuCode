@@ -31,6 +31,22 @@ let aiService: AnthropicService;
 let contextManager: ContextManager;
 let mcpManager: MCPManager;
 
+// Root route
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    name: 'AnuCode API',
+    version: '0.1.0',
+    status: 'running',
+    description: 'AI-powered code editor backend API',
+    endpoints: {
+      health: '/health',
+      api: '/api/v1',
+      tools: '/api/v1/mcp/tools'
+    },
+    documentation: 'https://github.com/kamleshthink/AnuCode'
+  });
+});
+
 // Health check
 app.get('/health', (req: Request, res: Response) => {
   res.json({
