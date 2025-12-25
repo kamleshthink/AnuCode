@@ -1,6 +1,6 @@
-# AnuCode API - Render Deployment Guide
+# AnuCode - Render Deployment Guide
 
-This guide will help you deploy the AnuCode backend API to Render.
+This guide will help you deploy both the AnuCode backend API and web app to Render.
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ This guide will help you deploy the AnuCode backend API to Render.
 
 ### Method 1: Using render.yaml (Recommended)
 
-The project includes a `render.yaml` file that automatically configures your deployment.
+The project includes a `render.yaml` file that automatically configures deployment for both services.
 
 1. **Connect Repository to Render**
    - Go to [Render Dashboard](https://dashboard.render.com)
@@ -22,14 +22,14 @@ The project includes a `render.yaml` file that automatically configures your dep
 
 2. **Configure Environment Variables**
 
-   In the Render dashboard, set these environment variables:
+   In the Render dashboard, set these environment variables for the **API service**:
 
    **Required:**
    - `ANTHROPIC_API_KEY` - Your Anthropic API key
    - `MONGODB_URI` - Your MongoDB connection string
    - `ALLOWED_ORIGINS` - Frontend URLs (comma-separated)
      ```
-     https://your-frontend.onrender.com,https://yourdomain.com
+     https://anucode-web.onrender.com
      ```
 
    **Optional:**
@@ -38,9 +38,10 @@ The project includes a `render.yaml` file that automatically configures your dep
    - `OPENAI_API_KEY` - OpenAI API key (if using)
 
 3. **Deploy**
-   - Click "Apply" to create the service
-   - Render will automatically build and deploy your API
-   - Your API will be available at: `https://anucode-api.onrender.com`
+   - Click "Apply" to create both services
+   - Render will automatically build and deploy:
+     - **API Backend**: `https://anucode-api.onrender.com`
+     - **Web App**: `https://anucode-web.onrender.com`
 
 ### Method 2: Manual Web Service Setup
 
