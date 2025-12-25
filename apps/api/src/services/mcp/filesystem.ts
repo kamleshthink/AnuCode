@@ -6,8 +6,11 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { existsSync, statSync, watch } from 'fs';
-import { glob } from 'glob';
+import { glob as globCallback } from 'glob';
+import { promisify } from 'util';
 import { MCPServer, MCPToolCall, MCPToolResult } from './types';
+
+const glob = promisify(globCallback);
 
 export class FileSystemMCP extends MCPServer {
   private workspaceRoot: string;

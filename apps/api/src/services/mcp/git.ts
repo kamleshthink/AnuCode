@@ -404,7 +404,7 @@ export class GitMCP extends MCPServer {
   }
 
   private async diff(args: any): Promise<MCPToolResult> {
-    let diffResult: DiffResult;
+    let diffResult: string;
 
     if (args.staged) {
       diffResult = await this.git.diff(['--cached', ...(args.files || [])]);
